@@ -15,7 +15,11 @@ namespace LocalizationTool.Components
         private const string LocalizationComponentPattern = "\\[\\\"([a-zA-Z0-9_\\{\\}]*)\\\"";
 
         private const string TagContentPattern = ">(.*?)<";
+        
+        private const string DisplayNamePattern = "\\[\\s*Display\\s*\\(Name\\s*\\=\\s*\\\"([a-zA-Z0-9_\\{\\}]*)\\\"\\s*\\)\\s*\\]";
 
+        private const string ValidationMessagePattern = "ErrorMessage\\s*\\=\\s*\\\"([a-zA-Z0-9_\\{\\}]*)\\\"";
+        
         private const string ValueAttributePattern = "\\svalue=\\\"(.*)\\\"";
 
         public Matcher(string appPath)
@@ -32,6 +36,36 @@ namespace LocalizationTool.Components
                 var content = File.ReadAllText(sourceFile);
                 var matches =
                     Regex.Matches(content, $"{injectedLocalizationComponentName}{LocalizationComponentPattern}");
+                results.AddRange(matches.Select(m => m.Groups).Select(g => g[1].Value));
+            }
+
+            return results;
+        }
+        
+        public List<string> SearchDisplayNameLabels()
+        {
+            var results = new List<string>();
+            var sourceFiles = Directory.GetFiles(_appPath, "*.cshtml.cs", SearchOption.AllDirectories);
+            foreach (var sourceFile in sourceFiles)
+            {
+                var content = File.ReadAllText(sourceFile);
+                var matches =
+                    Regex.Matches(content, $"{DisplayNamePattern}");
+                results.AddRange(matches.Select(m => m.Groups).Select(g => g[1].Value));
+            }
+
+            return results;
+        }
+        
+        public List<string> SearchValidationMessageLabels()
+        {
+            var results = new List<string>();
+            var sourceFiles = Directory.GetFiles(_appPath, "*.cshtml.cs", SearchOption.AllDirectories);
+            foreach (var sourceFile in sourceFiles)
+            {
+                var content = File.ReadAllText(sourceFile);
+                var matches =
+                    Regex.Matches(content, $"{ValidationMessagePattern}");
                 results.AddRange(matches.Select(m => m.Groups).Select(g => g[1].Value));
             }
 
