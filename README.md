@@ -8,6 +8,6 @@ It should help me (and others) to find text content in a .NET project, substitut
 The usage is pretty gross at this moment, just run: 
 dotnet.exe LocalizationTool.dll \<ProjectPath\> \<DesiredLocalizerComponentName\>
 
-You should also run it from VS/Rider providing the two program arguments.
+You can also run it from VS/Rider providing the two program arguments.
 
 Stay tuned for future commits and feel free to participate into development. Any helps is appreciated.
