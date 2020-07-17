@@ -13,6 +13,8 @@ namespace LocalizationTool.Components
         private readonly string _appPath;
 
         private const string LocalizationComponentPattern = "\\[\\\"([a-zA-Z0-9_\\{\\}]*)\\\"";
+        
+        private const string LocalizationClassPattern = "\\.GetString\\(\\\"([a-zA-Z0-9_\\{\\}]*)\\\"\\)";
 
         private const string TagContentPattern = ">(.*?)<";
         
@@ -34,9 +36,14 @@ namespace LocalizationTool.Components
             foreach (var sourceFile in sourceFiles)
             {
                 var content = File.ReadAllText(sourceFile);
-                var matches =
+                var matchesComponent =
                     Regex.Matches(content, $"{injectedLocalizationComponentName}{LocalizationComponentPattern}");
-                results.AddRange(matches.Select(m => m.Groups).Select(g => g[1].Value));
+                results.AddRange(matchesComponent.Select(m => m.Groups).Select(g => g[1].Value));
+                
+                var matchesClass =
+                    Regex.Matches(content, $"{injectedLocalizationComponentName}{LocalizationClassPattern}");
+                results.AddRange(matchesClass.Select(m => m.Groups).Select(g => g[1].Value));
+                
             }
 
             return results;
