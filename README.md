@@ -6,7 +6,7 @@ This is a work in progress in a very early phase.
 It should help me (and others) to find text content in a .NET project, substitute it with the injected Localizer component and create the json with translations.
 
 The usage is pretty gross at this moment, just run: 
-dotnet.exe LocalizationTool.dll <ProjectPath> <DesiredLocalizerComponentName>
+dotnet.exe LocalizationTool.dll \<ProjectPath\> \<DesiredLocalizerComponentName\>
 
 You should also run it from VS/Rider providing the two program arguments.
 
