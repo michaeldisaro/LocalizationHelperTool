@@ -20,7 +20,9 @@ namespace LocalizationTool.Models
 
         public string ToJson()
         {
-            var ordered = Schema.OrderBy(s => s.Key);
+            var ordered = Schema
+                          .OrderBy(s => s.Key)
+                          .ToDictionary(k => k.Key, v => v.Value);
             return JsonConvert.SerializeObject(ordered, Formatting.Indented);
         }
 
